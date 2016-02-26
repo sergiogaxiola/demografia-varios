@@ -1,0 +1,7 @@
+install.packages ("pyramid")
+require (pyramid)
+py.Males <- c(80,40,30,20,10)
+names(py.Males) <- c('0-9','10-19','20-29','30-39','40-')
+py.Females <- c(60,50,40,30,5)
+pyramids(Left=py.Males,Llab="Hombres",Right=py.Females,Rlab="Females",
+         Laxis=c(0,50,100),main="Gráfica 1. An example of population pyramid\n with fixed axis")
