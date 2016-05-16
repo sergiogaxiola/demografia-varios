@@ -1,0 +1,9 @@
+tabla1<- read.csv ("/home/sgr/Escritorio/Lab_TV1.csv")
+ls(tabla1)
+tabla1$hd<- as.numeric (tabla1$hombresdef)
+tabla1$hp<- as.numeric(as.character (tabla1$Hombres))
+class(tabla1$Hombres)
+tabla1$mx <- tabla1$hd /tabla1$hp #	 tasa central de mortalidad
+rad<-100000					##radix  para l puyede variar
+qx <- (tabla1$mx*tabla1$gpoedad) / (1+(tabla1$gpoedad-2.5)*tabla1$mx)  ##Probabilidad de muerte  (qx) entre la edad x y x+1
+qx
