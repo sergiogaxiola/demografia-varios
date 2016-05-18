@@ -7,3 +7,45 @@ tabla1$mx <- tabla1$hd /tabla1$hp #	 tasa central de mortalidad
 rad<-100000					##radix  para l puyede variar
 qx <- (tabla1$mx*tabla1$gpoedad) / (1+(tabla1$gpoedad-2.5)*tabla1$mx)  ##Probabilidad de muerte  (qx) entre la edad x y x+1
 qx
+################# PAGINA RED##################333
+
+install.packages ("pyramid")
+require (pyramid)
+py.Males <- c(80,40,30,20,10)
+names(py.Males) <- c('0-9','10-19','20-29','30-39','40-')
+py.Females <- c(60,50,40,30,5)
+pyramids(Left=py.Males,Llab="Hombres",Right=py.Females,Rlab="Females",
+         Laxis=c(0,50,100),main="Gráfica 1. An example of population pyramid\n with fixed axis")
+
+
+tabla1<- read.csv ("/home/sgr/Escritorio/Lab_TV1.csv")
+ls(tabla1)
+tabla1$hd<- as.numeric (tabla1$hombresdef)
+tabla1$hp<- as.numeric(as.character (tabla1$Hombres))
+class(tabla1$Hombres)
+tabla1$mx <- tabla1$hd /tabla1$hp #	 tasa central de mortalidad
+rad<-100000					##radix  para l puyede variar
+qx <- (tabla1$mx*tabla1$gpoedad) / (1+(tabla1$gpoedad-2.5)*tabla1$mx)  ##Probabilidad de muerte  (qx) entre la edad x y x+1
+qx
+
+ax <- c(0.3,rep(0.5,99),1/mx[101])	
+
+
+qx[101] <- 1					##La probabilidad de muerte del ultimo elemento será 1
+
+px<-1-qx	##probabilidad de sobrevivir (px)  entre la edad x y x+1
+lx <- c(1*rad,(cumprod(1-qx[-101]))*rad)	##numbers surviving (lx).
+dx <- lx*qx					## numbers dying (dx)
+Lx <- lx - (1-ax)*dx				##number alive between ages
+Lx[101] <- ax[101]*dx[101]	##Again, the last element is treated differently and you ##replace it with the appropriate formula
+Tx <- rev(cumsum(rev(Lx)))		##look up in help what cumsum() and rev() are doing.
+ex <- Tx/lx					##life expectancy (ex)
+
+sx1<-Lx[1]/lx[1],				##survivorship probability (sx)
+sx<-Lx[2:100]/Lx[1:99]
+sxlast<-Lx[101]/(Lx[101]+Lx[100]))
+sx<-c(sx1, sx , sxlast)
+
+## or all in one     sx<-c(Lx[1]/lx[1],Lx[2:100]/Lx[1:99],Lx[101]/(Lx[101]+Lx[100]))##
+
+ux<-1-sx					##non survivorship probability (ux)
